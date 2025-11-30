@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mathematics Archive</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400&family=Shippori+Mincho:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- MathJax -->
+    <script>
+        MathJax = {
+          tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+          svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        :root {
+            --bg-color: #050505;
+            --card-bg: #0a0a0a;
+            --text-main: #e5e5e5;
+            --text-muted: #666;
+            --border: #222;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Shippori Mincho', serif;
+            overflow-x: hidden;
+        }
+
+        .en-serif { font-family: 'Cormorant Garamond', serif; }
+        .en-sans { font-family: 'Inter', sans-serif; }
+
+        /* 画面遷移アニメーション */
+        .page-section {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .page-section.active {
+            display: block;
+            opacity: 1;
+        }
+
+        /* ハンバーガーメニューのアニメーション */
+        .hamburger-line {
+            transition: all 0.3s ease;
+        }
+        .menu-open .hamburger-line:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+        .menu-open .hamburger-line:nth-child(2) { opacity: 0; }
+        .menu-open .hamburger-line:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+        /* PDF埋め込みコンテナ */
+        .pdf-container {
+            position: relative;
+            width: 100%;
+            height: 70vh;
+            background: #222;
+            border: 1px solid #333;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- 固定ヘッダー（ハンバーガーメニューのみ） -->
+    <header class="fixed top-0 left-0 w-full z-50 px-6 py-6 flex justify-between items-start pointer-events-none">
+        <button id="menu-btn" onclick="toggleMenu()" class="pointer-events-auto text-white focus:outline-none group z-50">
+            <div class="w-8 h-8 flex flex-col justify-center gap-1.5">
+                <span class="hamburger-line block w-6 h-px bg-white group-hover:bg-gray-400 transition-colors"></span>
+                <span class="hamburger-line block w-4 h-px bg-white group-hover:bg-gray-400 transition-colors"></span>
+                <span class="hamburger-line block w-6 h-px bg-white group-hover:bg-gray-400 transition-colors"></span>
+            </div>
+        </button>
+    </header>
+
+    <!-- オーバーレイメニュー -->
+    <div id="overlay-menu" class="fixed inset-0 bg-black/95 z-40 transform -translate-x-full transition-transform duration-300 flex items-center justify-center">
+        <nav class="text-center space-y-8">
+            <a href="#" onclick="navigateTo('home'); toggleMenu()" class="block text-2xl text-white en-serif hover:text-gray-400 transition">HOME</a>
+            <div class="w-12 h-px bg-gray-800 mx-auto"></div>
+            <a href="#" onclick="navigateTo('math1'); toggleMenu()" class="block text-xl text-gray-400 hover:text-white transition">数学 I</a>
+            <a href="#" onclick="navigateTo('mathA'); toggleMenu()" class="block text-xl text-gray-400 hover:text-white transition">数学 A</a>
+            <a href="#" onclick="navigateTo('math2'); toggleMenu()" class="block text-xl text-gray-400 hover:text-white transition">数学 II</a>
+            <a href="#" onclick="navigateTo('mathB'); toggleMenu()" class="block text-xl text-gray-400 hover:text-white transition">数学 B</a>
+        </nav>
+    </div>
+
+    <!-- メインコンテンツ -->
+    <main class="flex-grow pt-20 pb-12 px-4 relative">
+
+        <!-- ==================== HOME 画面 ==================== -->
+        <section id="home" class="page-section active max-w-lg mx-auto text-center mt-12">
+            <h1 class="text-5xl md:text-6xl en-serif mb-2 tracking-wider">HOME</h1>
+            <p class="text-xs text-gray-500 en-sans tracking-[0.3em] uppercase mb-16">Class Archive</p>
+
+            <div class="grid grid-cols-1 gap-4">
+                <button onclick="navigateTo('math1')" class="group relative block w-full py-8 px-6 border border-[#222] hover:border-white/20 hover:bg-[#111] transition-all duration-500 text-left">
+                    <span class="text-xs text-gray-500 en-sans block mb-1">Mathematics I</span>
+                    <h2 class="text-2xl text-white en-serif italic">数学 I</h2>
+                    <i class="fa-solid fa-arrow-right absolute right-6 top-1/2 -translate-y-1/2 text-gray-600 group-hover:text-white group-hover:translate-x-2 transition-all opacity-0 group-hover:opacity-100"></i>
+                </button>
+
+                <button onclick="navigateTo('mathA')" class="group relative block w-full py-8 px-6 border border-[#222] hover:border-white/20 hover:bg-[#111] transition-all duration-500 text-left">
+                    <span class="text-xs text-gray-500 en-sans block mb-1">Mathematics A</span>
+                    <h2 class="text-2xl text-white en-serif italic">数学 A</h2>
+                    <i class="fa-solid fa-arrow-right absolute right-6 top-1/2 -translate-y-1/2 text-gray-600 group-hover:text-white group-hover:translate-x-2 transition-all opacity-0 group-hover:opacity-100"></i>
+                </button>
+
+                <button onclick="navigateTo('math2')" class="group relative block w-full py-8 px-6 border border-[#222] hover:border-white/20 hover:bg-[#111] transition-all duration-500 text-left">
+                    <span class="text-xs text-gray-500 en-sans block mb-1">Mathematics II</span>
+                    <h2 class="text-2xl text-white en-serif italic">数学 II</h2>
+                    <i class="fa-solid fa-arrow-right absolute right-6 top-1/2 -translate-y-1/2 text-gray-600 group-hover:text-white group-hover:translate-x-2 transition-all opacity-0 group-hover:opacity-100"></i>
+                </button>
+
+                <button onclick="navigateTo('mathB')" class="group relative block w-full py-8 px-6 border border-[#222] hover:border-white/20 hover:bg-[#111] transition-all duration-500 text-left">
+                    <span class="text-xs text-gray-500 en-sans block mb-1">Mathematics B</span>
+                    <h2 class="text-2xl text-white en-serif italic">数学 B</h2>
+                    <i class="fa-solid fa-arrow-right absolute right-6 top-1/2 -translate-y-1/2 text-gray-600 group-hover:text-white group-hover:translate-x-2 transition-all opacity-0 group-hover:opacity-100"></i>
+                </button>
+            </div>
+        </section>
+
+
+        <!-- ==================== 数学 B リスト画面 ==================== -->
+        <section id="mathB" class="page-section max-w-2xl mx-auto">
+            <div class="mb-12 text-center">
+                <span class="text-xs text-gray-500 en-sans tracking-widest border border-[#333] px-2 py-1">MATH B</span>
+                <h2 class="text-3xl mt-4 en-serif italic">数学 B：数列・統計</h2>
+            </div>
+
+            <div class="space-y-0 border-t border-[#222]">
+                <!-- Item 1: 漸化式 -->
+                <div onclick="showPdf('第4回 数列：漸化式再訪', 'https://example.com/dummy.pdf', '授業プリント_2025 (6).pdf')" class="cursor-pointer group py-6 px-4 border-b border-[#222] hover:bg-[#111] transition-colors flex items-start gap-5">
+                    <div class="w-10 h-10 flex-shrink-0 flex items-center justify-center bg-[#151515] border border-[#333] text-gray-500 group-hover:text-white transition-colors">
+                        <i class="fa-regular fa-file-pdf"></i>
+                    </div>
+                    <div>
+                        <span class="text-[10px] text-gray-500 en-sans block mb-1">No.04</span>
+                        <h3 class="text-lg text-gray-200 font-medium leading-snug group-hover:text-white transition-colors">数列：漸化式再訪 / 図形と漸化式</h3>
+                        <p class="text-xs text-gray-600 mt-2">等差・等比・階差型の復習と、平面分割問題のモデリング。</p>
+                    </div>
+                </div>
+
+                <!-- Item 2: 群数列 -->
+                <div onclick="showPdf('発展：群数列の構造', 'https://example.com/dummy.pdf', 'R07K1176_川口市立_澁谷恭亮e.pdf')" class="cursor-pointer group py-6 px-4 border-b border-[#222] hover:bg-[#111] transition-colors flex items-start gap-5">
+                    <div class="w-10 h-10 flex-shrink-0 flex items-center justify-center bg-[#151515] border border-[#333] text-gray-500 group-hover:text-white transition-colors">
+                        <i class="fa-regular fa-file-pdf"></i>
+                    </div>
+                    <div>
+                        <span class="text-[10px] text-gray-500 en-sans block mb-1">No.05</span>
+                        <h3 class="text-lg text-gray-200 font-medium leading-snug group-hover:text-white transition-colors">発展：群数列の構造</h3>
+                        <p class="text-xs text-gray-600 mt-2">群ごとの和 $S_m$ を計算し、全体の和 $T$ を導出する手順。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ==================== 数学 II リスト画面 ==================== -->
+        <section id="math2" class="page-section max-w-2xl mx-auto">
+            <div class="mb-12 text-center">
+                <span class="text-xs text-gray-500 en-sans tracking-widest border border-[#333] px-2 py-1">MATH II</span>
+                <h2 class="text-3xl mt-4 en-serif italic">数学 II：微分積分・統計</h2>
+            </div>
+
+            <div class="space-y-0 border-t border-[#222]">
+                <!-- Item 1: 仮説検定 -->
+                <div onclick="showPdf('第23回 統計：仮説検定', 'https://example.com/dummy.pdf', '授業プリント_2025 (31).pdf')" class="cursor-pointer group py-6 px-4 border-b border-[#222] hover:bg-[#111] transition-colors flex items-start gap-5">
+                    <div class="w-10 h-10 flex-shrink-0 flex items-center justify-center bg-[#151515] border border-[#333] text-gray-500 group-hover:text-white transition-colors">
+                        <i class="fa-regular fa-file-pdf"></i>
+                    </div>
+                    <div>
+                        <span class="text-[10px] text-gray-500 en-sans block mb-1">No.23</span>
+                        <h3 class="text-lg text-gray-200 font-medium leading-snug group-hover:text-white transition-colors">統計的な推測：仮説検定</h3>
+                        <p class="text-xs text-gray-600 mt-2">背理法の論理構造を用いた統計的推論。有意水準5%の棄却判断。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 数学I、数学Aはダミーコンテンツ（構造は同じ） -->
+        <section id="math1" class="page-section max-w-2xl mx-auto">
+            <div class="mb-12 text-center">
+                <span class="text-xs text-gray-500 en-sans tracking-widest border border-[#333] px-2 py-1">MATH I</span>
+                <h2 class="text-3xl mt-4 en-serif italic">数学 I</h2>
+            </div>
+            <div class="py-12 text-center text-gray-600 text-sm">準備中...</div>
+        </section>
+
+        <section id="mathA" class="page-section max-w-2xl mx-auto">
+            <div class="mb-12 text-center">
+                <span class="text-xs text-gray-500 en-sans tracking-widest border border-[#333] px-2 py-1">MATH A</span>
+                <h2 class="text-3xl mt-4 en-serif italic">数学 A</h2>
+            </div>
+            <div class="py-12 text-center text-gray-600 text-sm">準備中...</div>
+        </section>
+
+
+        <!-- ==================== PDF閲覧画面（共通） ==================== -->
+        <section id="pdf-view" class="page-section max-w-4xl mx-auto h-full">
+            <div class="mb-6 flex items-center justify-between">
+                <h2 id="pdf-title" class="text-lg md:text-xl text-white font-medium pl-2 border-l-2 border-white">
+                    <!-- JSでタイトル挿入 -->
+                </h2>
+                <a id="pdf-download-link" href="#" download class="text-xs border border-gray-600 px-3 py-1.5 hover:bg-white hover:text-black transition-colors">
+                    DOWNLOAD
+                </a>
+            </div>
+
+            <div class="pdf-container flex items-center justify-center bg-[#111]">
+                <!-- 実際の運用ではここに <embed> や <iframe> を入れます -->
+                <div class="text-center p-8">
+                    <i class="fa-regular fa-file-pdf text-4xl text-gray-600 mb-4"></i>
+                    <p class="text-gray-400 mb-2">PDF PREVIEW AREA</p>
+                    <p id="pdf-filename" class="text-xs text-gray-600 font-mono mb-6"></p>
+                    
+                    <p class="text-xs text-gray-500 border border-gray-800 p-4 inline-block text-left max-w-md">
+                        ※ 実装メモ:<br>
+                        GitHub Pages等で運用する場合、PDFファイルを `pdf/` フォルダ等にアップロードし、
+                        コード内のパスを実際のファイルパス（例: `pdf/mathB_no04.pdf`）に書き換えることで、ここにPDFが表示されます。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="text-center py-8 text-[10px] text-gray-700 en-sans tracking-widest">
+        &copy; 2024 Math Archive.
+    </footer>
+
+    <script>
+        // メニューの開閉
+        function toggleMenu() {
+            const menu = document.getElementById('overlay-menu');
+            const btn = document.getElementById('menu-btn');
+            
+            if (menu.classList.contains('-translate-x-full')) {
+                menu.classList.remove('-translate-x-full');
+                btn.classList.add('menu-open');
+            } else {
+                menu.classList.add('-translate-x-full');
+                btn.classList.remove('menu-open');
+            }
+        }
+
+        // ページ遷移（SPA風）
+        function navigateTo(sectionId) {
+            // 全セクションを非表示
+            document.querySelectorAll('.page-section').forEach(el => {
+                el.classList.remove('active');
+            });
+            
+            // 指定セクションを表示
+            const target = document.getElementById(sectionId);
+            if (target) {
+                target.classList.add('active');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        // PDF表示画面へ遷移
+        function showPdf(title, filePath, originalFileName) {
+            document.getElementById('pdf-title').innerText = title;
+            document.getElementById('pdf-filename').innerText = originalFileName;
+            document.getElementById('pdf-download-link').href = filePath;
+            
+            // iframe等でPDFを表示する場合の処理をここに記述
+            // const container = document.querySelector('.pdf-container');
+            // container.innerHTML = `<iframe src="${filePath}" class="w-full h-full border-0"></iframe>`;
+
+            navigateTo('pdf-view');
+        }
+
+        // 初期表示
+        window.onload = function() {
+            navigateTo('home');
+        };
+    </script>
+</body>
+</html>
